@@ -1,7 +1,11 @@
 {
   "name": "GenSight Codespace",
   "image": "mcr.microsoft.com/devcontainers/python:3.10",
-  "features": {},
+  "features": {
+    "ghcr.io/devcontainers/features/miniconda:1": {
+      "version": "latest"
+    }
+  },
   "postCreateCommand": "./postCreateCommand.sh",
   "customizations": {
     "vscode": {
