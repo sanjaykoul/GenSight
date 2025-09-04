@@ -9,13 +9,13 @@ def plot_daily_summary(daily_summary):
     plt.tight_layout()
     plt.savefig('daily_issue_count.png')
 
-def plot_engineer_workload(engineer_workload):
-    plt.figure(figsize=(8, 5))
-    sns.barplot(data=engineer_workload, x='Engineer Name', y='Issues Handled')
-    plt.title('Engineer Workload')
+def plot_weekly_summary(weekly_summary):
+    plt.figure(figsize=(10, 5))
+    sns.barplot(data=weekly_summary, x='Week', y='Issue Count')
+    plt.title('Weekly Issue Count')
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.savefig('engineer_workload.png')
+    plt.savefig('weekly_issue_count.png')
 
 def plot_common_issues(common_issues):
     plt.figure(figsize=(10, 5))
@@ -24,3 +24,11 @@ def plot_common_issues(common_issues):
     plt.xticks(rotation=90)
     plt.tight_layout()
     plt.savefig('common_issues.png')
+
+def plot_engineer_workload(engineer_workload):
+    plt.figure(figsize=(8, 5))
+    sns.barplot(data=engineer_workload, x='Engineer Name', y='Issues Handled')
+    plt.title('Engineer Workload')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig('engineer_workload.png')
