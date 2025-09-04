@@ -1,36 +1,41 @@
-import pandas as pd
-
 def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer_workload):
-    def format_date(date):
-        if isinstance(date, pd.Timestamp):
-            return date.strftime('%d-%b-%Y')
-        return str(date)
-
     try:
         most_frequent_issue = f"{common_issues.iloc[0]['Issue Description']} ({common_issues.iloc[0]['Count']} occurrences)"
     except (KeyError, IndexError):
-        most_frequent_issue = "Data unavailable"
+        most_frequent_issue = "No issue description available."
 
     try:
-        top_engineer_name = engineer_workload.iloc[0]['Engineer Name']
-        top_engineer_count = engineer_workload.iloc[0]['Issues Handled']
-        top_engineer = f"{top_engineer_name} with {top_engineer_count} issues handled."
+        top_engineer = f"{engineer_workload.iloc[0]['Engineer Name']} with {engineer_workload.iloc[0]['Issues Handled']} issues handled."
     except (KeyError, IndexError):
-        top_engineer = "Data unavailable"
+        top_engineer = "No engineer performance data available."
 
     try:
         peak_day = daily_summary.loc[daily_summary['Issue Count'].idxmax(), 'Date']
         peak_day_count = daily_summary['Issue Count'].max()
-        avg_daily = round(daily_summary['Issue Count'].mean(), 2)
-        trend = "increasing" if daily_summary['Issue Count'].iloc[-1] > daily_summary['Issue Count'].iloc[0] else "decreasing"
-    except (KeyError, IndexError, ValueError):
-        peak_day = peak_day_count = avg_daily = trend = "Data unavailable"
+        avg_daily = daily_summary['Issue Count'].mean()
+    except (KeyError, IndexError):
+        peak_day = peak_day_count = avg_daily = "Data unavailable"
 
     try:
-        peak_week_row = weekly_summary.loc[weekly_summary['Issue Count'].idxmax()]
-        peak_week_start = peak_week_row['Week Start']
-        peak_week_end = peak_week_row['Week End']
-        peak_week_count = peak_week_row['Issue Count']
-        avg_weekly = round(weekly_summary['Issue Count'].mean(), 2)
-    except (KeyError, IndexError, ValueError):
-        peak_week_start = peak_week_end = peak_week_count = avg_weekly = "Data unavailable"
+        peak_week = weekly_summary.loc[weekly_summary['Issue Count'].idxmax(), 'Week']
+        peak_week_count = weekly_summary['Issue Count'].max()
+        avg_weekly = weekly_summary['Issue Count'].mean()
+    except (KeyError, IndexError):
+        peak_week = peak_week_count = avg_weekly = "Data unavailable"
+
+    summary = f"""
+    Daily Trends:
+    - Peak issue day: {peak_day} with {peak_day_count} issues.
+    - Average daily issues: {avg_daily}
+
+    Weekly Trends:
+    - Peak issue week: {peak_week} with {peak_week_count} issues.
+    - Average weekly issues: {avg_weekly}
+
+    Common Issues:
+    - Most frequent issue: {most_frequent_issue}
+
+    Engineer Performance:
+    - Top engineer: {top_engineer}
+    """
+    return summary
