@@ -33,4 +33,4 @@ def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer
         peak_week_count = peak_week_row['Issue Count']
         avg_weekly = round(weekly_summary['Issue Count'].mean(), 2)
     except (KeyError, IndexError, ValueError):
-        peak_week_start = peak_week_end = peak_week_count = avg_weekly = "Data unavailable
+        peak_week_start = peak_week_end = peak_week_count = avg_weekly = "Data unavailable"
