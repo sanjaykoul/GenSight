@@ -1,4 +1,4 @@
-def generate_summary_text(daily_summary, weekly_summary, engineer_workload, common_issues):
+def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer_workload):
     try:
         most_frequent_issue = f"{common_issues.iloc[0]['Issue Description']} ({common_issues.iloc[0]['Count']} occurrences)"
     except (KeyError, IndexError):
