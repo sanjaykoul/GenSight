@@ -33,4 +33,15 @@ def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer
     except (KeyError, IndexError):
         peak_week = peak_week_count = avg_weekly = "Data unavailable"
 
-   
+    summary = f"""
+### 📊 Issue Tracker Summary
+
+**Daily Trends:**
+- 📅 **Peak issue day:** {peak_day} with **{peak_day_count} issues**.
+- 📈 **Average daily issues:** Approximately **{avg_daily} issues** per day.
+
+**Weekly Trends:**
+- 📅 **Peak issue week:** Starting {peak_week} with **{peak_week_count} issues**.
+- 📈 **Average weekly issues:** Around **{avg_weekly} issues** per week.
+
+**
