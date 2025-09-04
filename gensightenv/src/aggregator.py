@@ -20,4 +20,4 @@ def generate_summaries(df):
     common_issues = df['Issue Description'].value_counts().head(10).reset_index()
     common_issues.columns = ['Issue Description', 'Count']
 
-    return daily_summary, weekly_summary, monthly_summary, engineer_workload, common_issues
+    return daily_summary, weekly_summary, monthly_summary, common_issues, engineer_workload
