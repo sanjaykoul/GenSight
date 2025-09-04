@@ -1,3 +1,10 @@
+import pandas as pd
+
+def aggregate_data(data_by_date):
+    all_data = pd.concat(data_by_date.values(), keys=data_by_date.keys())
+    all_data.reset_index(level=0, inplace=True)
+    all_data.rename(columns={'level_0': 'Date'}, inplace=True)
+    return all_data
 
 def generate_summaries(df):
     df['Week'] = df['Date'].dt.to_period('W').apply(lambda r: r.start_time)
