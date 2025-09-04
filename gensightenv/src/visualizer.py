@@ -3,7 +3,7 @@ import seaborn as sns
 
 def plot_daily_summary(daily_summary):
     plt.figure(figsize=(12, 6))
-    sns.barplot(data=daily_summary, x='Date', y='Issue Count', palette='Blues')
+    sns.barplot(data=daily_summary, x='Date', y='Issue Count', hue='Date', palette='Blues', legend=False)
     plt.title('Daily Issue Count Overview', fontsize=16, weight='bold')
     plt.xlabel('Date', fontsize=12)
     plt.ylabel('Number of Issues', fontsize=12)
@@ -18,7 +18,7 @@ def plot_daily_summary(daily_summary):
 
 def plot_weekly_summary(weekly_summary):
     plt.figure(figsize=(12, 6))
-    sns.barplot(data=weekly_summary, x='Week', y='Issue Count', palette='Greens')
+    sns.barplot(data=weekly_summary, x='Week', y='Issue Count', hue='Week', palette='Greens', legend=False)
     plt.title('Weekly Issue Count Overview', fontsize=16, weight='bold')
     plt.xlabel('Week', fontsize=12)
     plt.ylabel('Number of Issues', fontsize=12)
