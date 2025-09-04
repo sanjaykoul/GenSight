@@ -18,17 +18,15 @@ def plot_weekly_summary(weekly_summary):
     plt.savefig('weekly_issue_count.png')
 
 def plot_common_issues(common_issues):
-    plt.figure(figsize=(10, 5))
-    sns.barplot(data=common_issues, x='Issue Description', y='Count')
+    plt.figure(figsize=(8, 8))
+    plt.pie(common_issues['Count'], labels=common_issues['Issue Description'], autopct='%1.1f%%')
     plt.title('Top 10 Common Issues')
-    plt.xticks(rotation=90)
     plt.tight_layout()
-    plt.savefig('common_issues.png')
+    plt.savefig('common_issues_pie.png')
 
 def plot_engineer_workload(engineer_workload):
-    plt.figure(figsize=(8, 5))
-    sns.barplot(data=engineer_workload, x='Engineer Name', y='Issues Handled')
+    plt.figure(figsize=(8, 8))
+    plt.pie(engineer_workload['Issues Handled'], labels=engineer_workload['Engineer Name'], autopct='%1.1f%%')
     plt.title('Engineer Workload')
-    plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.savefig('engineer_workload.png')
+    plt.savefig('engineer_workload_pie.png')
