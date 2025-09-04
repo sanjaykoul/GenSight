@@ -29,4 +29,25 @@ def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer
     try:
         peak_week = format_date(weekly_summary.loc[weekly_summary['Issue Count'].idxmax(), 'Week'])
         peak_week_count = int(weekly_summary['Issue Count'].max())
-        avg_weekly = round(weekly_summary['Issue Count
+        avg_weekly = round(weekly_summary['Issue Count'].mean(), 1)
+    except (KeyError, IndexError):
+        peak_week = peak_week_count = avg_weekly = "Data unavailable"
+
+    summary = f"""
+### 📊 Issue Tracker Summary
+
+**Daily Trends:**
+- 📅 **Peak issue day:** {peak_day} with **{peak_day_count} issues**.
+- 📈 **Average daily issues:** Approximately **{avg_daily} issues** per day.
+
+**Weekly Trends:**
+- 📅 **Peak issue week:** Starting {peak_week} with **{peak_week_count} issues**.
+- 📈 **Average weekly issues:** Around **{avg_weekly} issues** per week.
+
+**Common Issues:**
+- ⚠️ **Most frequent issue:** {most_frequent_issue}
+
+**Engineer Performance:**
+- 🛠️ **Top engineer:** {top_engineer}
+"""
+    return summary
