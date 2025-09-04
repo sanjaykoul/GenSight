@@ -2,7 +2,7 @@ from pptx import Presentation
 from pptx.util import Inches
 import matplotlib.pyplot as plt
 
-# Create presentation
+# Create a new presentation
 prs = Presentation()
 
 # Slide 1: Title
@@ -25,37 +25,18 @@ slide = prs.slides.add_slide(prs.slide_layouts[1])
 slide.shapes.title.text = "Summary Insights"
 slide.placeholders[1].text = summary_text
 
-# Slide 3: GenAI Insights
-slide = prs.slides.add_slide(prs.slide_layouts[1])
-slide.shapes.title.text = "GenAI Insights"
-slide.placeholders[1].text = (
-    "GenAI models identified trends in issue types, engineer responsiveness, and resolution efficiency. "
-    "Recurring issues suggest automation opportunities. Performance metrics highlight top contributors."
-)
-
-# Slide 4: Fine-Tuned Model Recommendations
-slide = prs.slides.add_slide(prs.slide_layouts[1])
-slide.shapes.title.text = "Fine-Tuned Model Recommendations"
-slide.placeholders[1].text = (
-    "Recommendations:\n"
-    "- Automate high-frequency issues\n"
-    "- Reallocate engineers based on workload\n"
-    "- Predict recurring problems\n"
-    "- Use GenAI summaries in daily standups"
-)
-
 # Function to add image slides
 def add_image_slide(title, image_path):
     slide = prs.slides.add_slide(prs.slide_layouts[5])
     slide.shapes.title.text = title
     slide.shapes.add_picture(image_path, Inches(1), Inches(1.5), width=Inches(8), height=Inches(4.5))
 
-# Add image slides (replace with actual paths)
+# Add image slides (ensure these files exist in your working directory)
 add_image_slide("Daily Summary", "daily_summary.png")
 add_image_slide("Weekly Summary", "weekly_summary.png")
 add_image_slide("Common Issues", "common_issues.png")
 add_image_slide("Engineer Workload", "engineer_workload.png")
 
-# Save presentation
+# Save the presentation
 prs.save("client_presentation_simple.pptx")
 print("✅ Saved as client_presentation_simple.pptx")
