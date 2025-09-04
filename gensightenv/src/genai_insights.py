@@ -1,6 +1,6 @@
-def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer_workload):
-    from datetime import datetime
+import pandas as pd  # ✅ Required for pd.Timestamp
 
+def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer_workload):
     def format_date(date):
         if isinstance(date, pd.Timestamp):
             return date.strftime('%d-%b-%Y')
@@ -16,7 +16,7 @@ def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer
         top_engineer_count = engineer_workload.iloc[0]['Issues Handled']
         top_engineer = f"{top_engineer_name} with {top_engineer_count} issues handled."
     except (KeyError, IndexError):
-        top_engineer = "No engineer performance data available."
+        top_engineer = top_engineer_name = top_engineer_count = "Data unavailable"
 
     try:
         peak_day = daily_summary.loc[daily_summary['Issue Count'].idxmax(), 'Date']
