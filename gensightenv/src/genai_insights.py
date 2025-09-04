@@ -28,8 +28,8 @@ def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer
 
     try:
         peak_week_row = weekly_summary.loc[weekly_summary['Issue Count'].idxmax()]
-        peak_week_start = peak_week_row['Week']
-        peak_week_end = peak_week_start + pd.Timedelta(days=6)
+        peak_week_start = peak_week_row['Week Start']
+        peak_week_end = peak_week_row['Week End']
         peak_week_count = peak_week_row['Issue Count']
         avg_weekly = round(weekly_summary['Issue Count'].mean(), 2)
     except (KeyError, IndexError):
@@ -41,22 +41,20 @@ def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer
     - Average daily issues: {avg_daily}
     - Issue trend over time: {trend}
 
-    📅 **Weekly Trends:**
+    📅 **Weekly Trends (Mon–Fri only):**
     - Peak issue week: {format_date(peak_week_start)} to {format_date(peak_week_end)} with {peak_week_count} issues.
     - Average weekly issues: {avg_weekly}
 
     🛠️ **Common Issues:**
     - Most frequent issue: {most_frequent_issue}
-    - Frequent issues may impact client satisfaction. Recommend prioritizing fixes or automation.
 
     🧑‍💻 **Engineer Performance:**
     - Top engineer: {top_engineer}
-    - Consider reviewing workload balance if {top_engineer_name} consistently handles > {top_engineer_count} issues.
 
     ⚠️ **GenAI Insights:**
-    - The issue volume shows a {trend} trend, indicating potential service strain.
-    - {format_date(peak_day)} and week of {format_date(peak_week_start)}–{format_date(peak_week_end)} had unusually high issue volumes. Recommend root cause analysis.
-    - Automation or SOP updates may help reduce recurrence of frequent issues like: {most_frequent_issue}.
+    - Issue volume trend: {trend}
+    - High activity observed on {format_date(peak_day)} and during the week of {format_date(peak_week_start)}–{format_date(peak_week_end)}.
+    - Frequent issue type: {most_frequent_issue}
     """
 
     return summary
