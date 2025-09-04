@@ -1,10 +1,1 @@
-pandas
-openpyxl
-seaborn
-plotly
-transformers
-scikit-learn
-torch
-sentence-transformers
-langchain
-tqdm
+
