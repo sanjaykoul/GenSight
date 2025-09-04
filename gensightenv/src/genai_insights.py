@@ -1,58 +1,41 @@
-def generate_summary_text(daily_summary, weekly_summary, engineer_workload, common_issues):
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+
+# Load Excel file
+excel_path = "demo_file.xlsx"  # Update with your actual file path
+xls = pd.ExcelFile(excel_path)
+
+# Parse sheets with date-named tabs
+data_frames = []
+for sheet_name in xls.sheet_names:
     try:
-        most_frequent_issue = f"{common_issues.iloc[0]['Issue Description']} ({common_issues.iloc[0]['Count']} occurrences)"
-    except (KeyError, IndexError):
-        most_frequent_issue = "No issue description available."
+        date = pd.to_datetime(sheet_name, format="%d-%m-%Y")
+        df = xls.parse(sheet_name)
+        df['Date'] = date
+        data_frames.append(df)
+    except ValueError:
+        continue  # Skip non-date sheets
 
-    try:
-        top_engineer = f"{engineer_workload.iloc[0]['Engineer Name']} with {engineer_workload.iloc[0]['Issues Handled']} issues handled."
-        top_engineer_name = engineer_workload.iloc[0]['Engineer Name']
-        top_engineer_count = engineer_workload.iloc[0]['Issues Handled']
-    except (KeyError, IndexError):
-        top_engineer = top_engineer_name = top_engineer_count = "Data unavailable"
+# Combine all sheets
+combined_df = pd.concat(data_frames, ignore_index=True)
 
-    try:
-        peak_day = daily_summary.loc[daily_summary['Issue Count'].idxmax(), 'Date']
-        peak_day_count = daily_summary['Issue Count'].max()
-        avg_daily = daily_summary['Issue Count'].mean()
-        trend = "increasing" if daily_summary['Issue Count'].iloc[-1] > daily_summary['Issue Count'].iloc[0] else "decreasing"
-    except (KeyError, IndexError):
-        peak_day = peak_day_count = avg_daily = trend = "Data unavailable"
+# Group by date to get issue counts
+daily_summary = combined_df.groupby('Date').size().reset_index(name='Issue Count')
 
-    try:
-        peak_week = weekly_summary.loc[weekly_summary['Issue Count'].idxmax(), 'Week']
-        peak_week_count = weekly_summary['Issue Count'].max()
-        avg_weekly = weekly_summary['Issue Count'].mean()
-    except (KeyError, IndexError):
-        peak_week = peak_week_count = avg_weekly = "Data unavailable"
+# Identify peak issue day
+peak_day = daily_summary.loc[daily_summary['Issue Count'].idxmax()]
 
-    summary = f"""
-    📊 **Daily Trends:**
-    - Peak issue day: {peak_day} with {peak_day_count} issues.
-    - Average daily issues: {avg_daily:.2f}
-    - Issue trend over time: {trend}
-
-    📅 **Weekly Trends:**
-    - Peak issue week: {peak_week} with {peak_week_count} issues.
-    - Average weekly issues: {avg_weekly:.2f}
-
-    ⚠️ **Operational Risk:**
-    - High issue volume on {peak_day} may indicate a systemic or recurring problem.
-    - Weekly peak ({peak_week}) should be reviewed for root cause analysis.
-
-    🧑‍💻 **Engineer Performance:**
-    - Top engineer: {top_engineer}
-    - Consider reviewing workload balance if {top_engineer_name} consistently handles > {top_engineer_count} issues.
-
-    🛠️ **Common Issues:**
-    - Most frequent issue: {most_frequent_issue}
-    - Frequent issues may impact client satisfaction. Recommend prioritizing fixes or automation.
-
-    ✅ **Recommendations:**
-    - Investigate peak periods for root causes.
-    - Review engineer workload distribution.
-    - Address top recurring issues to reduce future volume.
-    - Consider automation or SOP updates for frequent issues.
-    """
-
-    return summary
+# Plot
+plt.figure(figsize=(12, 6))
+sns.barplot(data=daily_summary, x='Date', y='Issue Count', palette='Blues_d')
+plt.axhline(peak_day['Issue Count'], color='red', linestyle='--', label=f"Peak Day: {peak_day['Date'].strftime('%d-%b-%Y')} ({peak_day['Issue Count']} issues)")
+plt.xticks(rotation=45)
+plt.title("Daily Issue Counts")
+plt.xlabel("Date")
+plt.ylabel("Number of Issues")
+plt.legend()
+plt.tight_layout()
+plt.show()
