@@ -1,1 +1,8 @@
-
+pandas
+openpyxl
+matplotlib
+seaborn
+plotly
+openai
+transformers
+langchain
