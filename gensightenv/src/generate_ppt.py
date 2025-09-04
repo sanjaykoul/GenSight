@@ -56,6 +56,25 @@ slide = prs.slides.add_slide(prs.slide_layouts[1])
 slide.shapes.title.text = "Summary Insights"
 slide.placeholders[1].text = summary_text
 
+# GenAI Insights Slide
+slide = prs.slides.add_slide(prs.slide_layouts[1])
+slide.shapes.title.text = "GenAI Insights"
+slide.placeholders[1].text = (
+    "GenAI models identified trends in issue types, engineer responsiveness, and resolution efficiency. "
+    "Recurring issues suggest automation opportunities. Performance metrics highlight top contributors."
+)
+
+# Fine-Tuned Model Recommendations Slide
+slide = prs.slides.add_slide(prs.slide_layouts[1])
+slide.shapes.title.text = "Fine-Tuned Model Recommendations"
+slide.placeholders[1].text = (
+    "Recommendations:\n"
+    "- Prioritize high-frequency issues for automation.\n"
+    "- Reallocate engineers based on workload trends.\n"
+    "- Introduce predictive alerts for recurring problems.\n"
+    "- Use GenAI summaries for daily standups and reporting."
+)
+
 # Function to add image slides
 def add_image_slide(title, image_path):
     slide = prs.slides.add_slide(prs.slide_layouts[5])
