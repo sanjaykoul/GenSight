@@ -1,15 +1,10 @@
 pandas
 openpyxl
-matplotlib
 seaborn
 plotly
 transformers
 scikit-learn
-numpy
-jupyter
-ipython
 torch
 sentence-transformers
 langchain
 tqdm
-
