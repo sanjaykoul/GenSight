@@ -1,4 +1,4 @@
-import pandas as pd  # ✅ Required for pd.Timestamp
+import pandas as pd
 
 def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer_workload):
     def format_date(date):
@@ -27,11 +27,13 @@ def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer
         peak_day = peak_day_count = avg_daily = trend = "Data unavailable"
 
     try:
-        peak_week = weekly_summary.loc[weekly_summary['Issue Count'].idxmax(), 'Week']
-        peak_week_count = weekly_summary['Issue Count'].max()
+        peak_week_row = weekly_summary.loc[weekly_summary['Issue Count'].idxmax()]
+        peak_week_start = peak_week_row['Week']
+        peak_week_end = peak_week_start + pd.Timedelta(days=6)
+        peak_week_count = peak_week_row['Issue Count']
         avg_weekly = round(weekly_summary['Issue Count'].mean(), 2)
     except (KeyError, IndexError):
-        peak_week = peak_week_count = avg_weekly = "Data unavailable"
+        peak_week_start = peak_week_end = peak_week_count = avg_weekly = "Data unavailable"
 
     summary = f"""
     📊 **Daily Trends:**
@@ -40,7 +42,7 @@ def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer
     - Issue trend over time: {trend}
 
     📅 **Weekly Trends:**
-    - Peak issue week: {format_date(peak_week)} with {peak_week_count} issues.
+    - Peak issue week: {format_date(peak_week_start)} to {format_date(peak_week_end)} with {peak_week_count} issues.
     - Average weekly issues: {avg_weekly}
 
     🛠️ **Common Issues:**
@@ -53,7 +55,7 @@ def generate_summary_text(daily_summary, weekly_summary, common_issues, engineer
 
     ⚠️ **GenAI Insights:**
     - The issue volume shows a {trend} trend, indicating potential service strain.
-    - {format_date(peak_day)} and week of {format_date(peak_week)} had unusually high issue volumes. Recommend root cause analysis.
+    - {format_date(peak_day)} and week of {format_date(peak_week_start)}–{format_date(peak_week_end)} had unusually high issue volumes. Recommend root cause analysis.
     - Automation or SOP updates may help reduce recurrence of frequent issues like: {most_frequent_issue}.
     """
 
